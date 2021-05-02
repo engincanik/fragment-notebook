@@ -9,11 +9,11 @@ import androidx.room.Update
 interface NoteDao {
 
     @Insert
-    fun addNote(note: Note)
+    suspend fun addNote(note: Note)
 
     @Update
-    fun updateNote(note: Note)
+    suspend fun updateNote(note: Note)
 
     @Query("SELECT * FROM note")
-    fun getAllNotes(): List<Note>
+    suspend fun getAllNotes(): List<Note>
 }

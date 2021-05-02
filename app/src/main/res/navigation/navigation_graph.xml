@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/noteListFragment">
+    app:startDestination="@id/createNoteFragment">
 
     <fragment
         android:id="@+id/noteListFragment"
-        android:name="com.engin.fragmentnotebook.NoteListFragment"
+        android:name="com.engin.fragmentnotebook.ui.NoteListFragment"
         android:label="fragment_note_list"
         tools:layout="@layout/fragment_note_list" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNoteFragment"
-        android:name="com.engin.fragmentnotebook.CreateNoteFragment"
+        android:name="com.engin.fragmentnotebook.ui.CreateNoteFragment"
         android:label="fragment_create_note"
         tools:layout="@layout/fragment_create_note" >
         <action
