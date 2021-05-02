@@ -10,6 +10,9 @@ import android.widget.Toast
 import com.engin.fragmentnotebook.R
 import com.engin.fragmentnotebook.base.BaseFragment
 import com.engin.fragmentnotebook.db.Note
+import com.engin.fragmentnotebook.db.NoteDatabase
+import com.engin.fragmentnotebook.util.toastShort
+import kotlinx.coroutines.launch
 
 class CreateNoteFragment : BaseFragment() {
     private lateinit var noteTitle: EditText
@@ -42,7 +45,13 @@ class CreateNoteFragment : BaseFragment() {
                 Toast.makeText(requireActivity(), "Title is required.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val note = Note(noteTitle.text.toString().trim(), noteText.text.toString().trim())
+            launch {
+                val note = Note(noteTitle.text.toString().trim(), noteText.text.toString().trim())
+                context?.let {
+                    NoteDatabase(it).getNoteDao().addNote(note)
+                    it.toastShort("Note saved.")
+                }
+            }
         }
     }
 
