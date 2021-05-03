@@ -19,6 +19,7 @@ class CreateNoteFragment : BaseFragment() {
     private lateinit var noteTitle: EditText
     private lateinit var noteText: EditText
     private lateinit var upsertBtn: Button
+    private var note: Note? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +35,19 @@ class CreateNoteFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        arguments?.let {
+            note = CreateNoteFragmentArgs.fromBundle(it).note
+            noteTitle.setText(note?.noteTitle)
+            noteText.setText(note?.noteText)
+            if (note?.noteTitle != null) {
+                upsertBtn.text = "Update"
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         noteTitle = view.findViewById(R.id.editTextNoteTitle)
         noteText = view.findViewById(R.id.editTextNote)
         upsertBtn = view.findViewById(R.id.upsertBtn)
@@ -47,10 +57,17 @@ class CreateNoteFragment : BaseFragment() {
                 return@setOnClickListener
             }
             launch {
-                val note = Note(noteTitle.text.toString().trim(), noteText.text.toString().trim())
                 context?.let {
-                    NoteDatabase(it).getNoteDao().addNote(note)
-                    it.toastShort("Note saved.")
+                    val mNote =
+                        Note(noteTitle.text.toString().trim(), noteText.text.toString().trim())
+                    if (note == null) {
+                        NoteDatabase(it).getNoteDao().addNote(mNote)
+                        it.toastShort("Note saved.")
+                    } else {
+                        mNote.id = note!!.id
+                        NoteDatabase(it).getNoteDao().updateNote(mNote)
+                        it.toastShort("Note updated.")
+                    }
                     val action = CreateNoteFragmentDirections.actionUpsertNote()
                     Navigation.findNavController(_view).navigate(action)
                 }

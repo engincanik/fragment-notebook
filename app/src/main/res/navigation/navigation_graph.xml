@@ -9,7 +9,7 @@
         android:id="@+id/noteListFragment"
         android:name="com.engin.fragmentnotebook.ui.NoteListFragment"
         android:label="fragment_note_list"
-        tools:layout="@layout/fragment_note_list" >
+        tools:layout="@layout/fragment_note_list">
         <action
             android:id="@+id/actionCreateNote"
             app:destination="@id/createNoteFragment" />
@@ -18,9 +18,14 @@
         android:id="@+id/createNoteFragment"
         android:name="com.engin.fragmentnotebook.ui.CreateNoteFragment"
         android:label="fragment_create_note"
-        tools:layout="@layout/fragment_create_note" >
+        tools:layout="@layout/fragment_create_note">
         <action
             android:id="@+id/actionUpsertNote"
             app:destination="@id/noteListFragment" />
+        <argument
+            android:name="note"
+            android:defaultValue="@null"
+            app:argType="com.engin.fragmentnotebook.db.Note"
+            app:nullable="true" />
     </fragment>
 </navigation>
