@@ -8,10 +8,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.engin.fragmentnotebook.R
 import com.engin.fragmentnotebook.db.Note
-import com.engin.fragmentnotebook.ui.NoteListFragment
 import com.engin.fragmentnotebook.ui.NoteListFragmentDirections
+import com.engin.fragmentnotebook.util.RecyclerViewClickInterface
+import kotlinx.coroutines.Job
 
-class NotesAdapter(private var notes: List<Note>) :
+class NotesAdapter(private var notes: List<Note>, private var clickListener: RecyclerViewClickInterface) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,8 +33,11 @@ class NotesAdapter(private var notes: List<Note>) :
         holder.noteTitleET.text = notes[position].noteTitle
         holder.noteTextET.text = notes[position].noteText
         holder.itemView.setOnClickListener {
-            val action = NoteListFragmentDirections.actionCreateNote(notes[position])
-            Navigation.findNavController(it).navigate(action)
+            clickListener.onItemClick(it, notes[position])
+        }
+        holder.itemView.setOnLongClickListener {
+            clickListener.onItemLongClick(it, notes[position])
+            true
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.engin.fragmentnotebook.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface NoteDao {
@@ -15,5 +12,8 @@ interface NoteDao {
     suspend fun updateNote(note: Note)
 
     @Query("SELECT * FROM note ORDER BY id DESC")
-    suspend fun getAllNotes(): List<Note>
+    suspend fun getAllNotes(): MutableList<Note>
+
+    @Delete
+    suspend fun deleteNote(note: Note)
 }
