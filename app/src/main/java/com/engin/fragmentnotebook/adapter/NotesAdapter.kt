@@ -1,8 +1,10 @@
 package com.engin.fragmentnotebook.adapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.engin.fragmentnotebook.R
 import com.engin.fragmentnotebook.db.Note
@@ -11,8 +13,8 @@ class NotesAdapter(private var notes: List<Note>) :
     RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val noteTitleET: EditText = itemView.findViewById(R.id.editTextNoteTitle)
-        val noteTextET: EditText = itemView.findViewById(R.id.editTextNote)
+        val noteTitleET: TextView = itemView.findViewById(R.id.noteTitleCardTv)
+        val noteTextET: TextView = itemView.findViewById(R.id.noteTextCardTv)
 
         init {
             itemView.setOnClickListener {
@@ -23,7 +25,8 @@ class NotesAdapter(private var notes: List<Note>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.note_card, parent, false)
+        return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
@@ -31,6 +34,7 @@ class NotesAdapter(private var notes: List<Note>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.noteTitleET.text = notes[position].noteTitle
+        holder.noteTextET.text = notes[position].noteText
     }
 }
