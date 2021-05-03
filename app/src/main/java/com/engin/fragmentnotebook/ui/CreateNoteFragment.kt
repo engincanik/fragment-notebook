@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.engin.fragmentnotebook.R
 import com.engin.fragmentnotebook.base.BaseFragment
 import com.engin.fragmentnotebook.db.Note
@@ -40,7 +41,7 @@ class CreateNoteFragment : BaseFragment() {
         noteTitle = view.findViewById(R.id.editTextNoteTitle)
         noteText = view.findViewById(R.id.editTextNote)
         upsertBtn = view.findViewById(R.id.upsertBtn)
-        upsertBtn.setOnClickListener {
+        upsertBtn.setOnClickListener { _view ->
             if (noteTitle.text.isEmpty()) {
                 Toast.makeText(requireActivity(), "Title is required.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -50,6 +51,8 @@ class CreateNoteFragment : BaseFragment() {
                 context?.let {
                     NoteDatabase(it).getNoteDao().addNote(note)
                     it.toastShort("Note saved.")
+                    val action = CreateNoteFragmentDirections.actionUpsertNote()
+                    Navigation.findNavController(_view).navigate(action)
                 }
             }
         }

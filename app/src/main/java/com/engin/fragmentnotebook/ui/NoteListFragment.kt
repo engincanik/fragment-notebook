@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.engin.fragmentnotebook.R
 import com.engin.fragmentnotebook.adapter.NotesAdapter
 import com.engin.fragmentnotebook.base.BaseFragment
 import com.engin.fragmentnotebook.db.NoteDatabase
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 
 class NoteListFragment : BaseFragment() {
@@ -29,6 +31,12 @@ class NoteListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val floatingActionButton: FloatingActionButton = view.findViewById(R.id.createNoteFAB)
+
+        floatingActionButton.setOnClickListener {
+            val action = NoteListFragmentDirections.actionCreateNote()
+            Navigation.findNavController(it).navigate(action)
+        }
         recyclerView = view.findViewById(R.id.note_recyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager =
